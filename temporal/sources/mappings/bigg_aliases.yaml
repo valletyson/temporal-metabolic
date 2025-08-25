@@ -1,0 +1,142 @@
+# BiGG ID aliases and crosswalks
+# Maps canonical BiGG IDs to model-specific variants
+
+metadata:
+  version: "0.1.0"
+  description: "BiGG reaction ID aliases for cross-model compatibility"
+  last_updated: "2025-01-08"
+
+# Format: canonical_id: [alias1, alias2, ...]
+aliases:
+  # Alternative oxidases
+  ASPO6:
+    - ASPO6_c
+    - ASPO6_syn
+    - ASPO6_cyto
+    - L_ASPARTATE_OXIDASE
+  
+  GLYCTO1:
+    - GLYCTO1_c
+    - GLYCTO1_syn
+    - GLYCTO1_cyto
+    - GLYCOLATE_OXIDASE
+  
+  # Catalases
+  CAT:
+    - CAT_c
+    - CAT_syn
+    - CATALASE
+    - CATALASE_RXN
+    - H2O2_DISMUTASE
+  
+  CATm:
+    - CATm_m
+    - CAT_mito
+    - CATALASE_MITO
+  
+  # Pyridoxine oxidases
+  PDX5POi:
+    - PDX5POi_c
+    - PDX5POi_syn
+    - PYRIDOXAMINE_5P_OXIDASE
+  
+  PYAM5PO:
+    - PYAM5PO_c
+    - PYAM5PO_syn
+    - PYRIDOXAMINE_OXIDASE
+  
+  PYDXNO:
+    - PYDXNO_c
+    - PYDXNO_syn
+    - PYRIDOXINE_OXIDASE
+  
+  PYDXO:
+    - PYDXO_c
+    - PYDXO_syn
+    - PYRIDOXAL_OXIDASE
+  
+  # Other O2 producers
+  DHORDi:
+    - DHORDi_c
+    - DHORDi_syn
+    - DIHYDROOROTATE_DEHYDROGENASE
+    - DHOD
+  
+  NAR_syn:
+    - NAR_syn_c
+    - NAR
+    - NITRATE_REDUCTASE_FD
+    - FD_NITRATE_REDUCTASE
+  
+  GLXO3r:
+    - GLXO3r_c
+    - GLXO3r_syn
+    - GLYOXYLATE_DEHYDROGENASE
+  
+  # O2 transport
+  O2tpp:
+    - O2tpp_p
+    - O2_TRANSPORT_PP
+    - O2_PERIPLASM
+  
+  O2tu:
+    - O2tu_c
+    - O2_TRANSPORT
+    - O2_UPTAKE
+  
+  O2tex:
+    - O2tex_e
+    - O2_TRANSPORT_EX
+    - O2_EXCHANGE
+    - EX_o2_e
+  
+  # Photosystem II
+  PSII:
+    - PSII_RXN
+    - PS2
+    - PHOTOSYSTEM_II
+    - WATER_PLASTOQUINONE_OXIDOREDUCTASE
+    - PSIIrxn
+  
+  # Peroxidases (various)
+  PEROX:
+    - PEROX_c
+    - PEROXIDASE
+    - PEROXIDASE_RXN
+  
+  GPX:
+    - GPX_c
+    - GLUTATHIONE_PEROXIDASE
+    - GSH_PEROXIDASE
+  
+  APX:
+    - APX_c
+    - ASCORBATE_PEROXIDASE
+    - ASC_PEROXIDASE
+
+# Model-specific prefixes/suffixes to strip
+normalization_patterns:
+  suffixes:
+    - "_c"      # cytosol
+    - "_m"      # mitochondria
+    - "_p"      # periplasm
+    - "_e"      # extracellular
+    - "_n"      # nucleus
+    - "_x"      # peroxisome
+    - "_v"      # vacuole
+    - "_syn"    # synechocystis-specific
+    - "_eco"    # E. coli-specific
+    - "_sce"    # S. cerevisiae-specific
+  
+  prefixes:
+    - "R_"      # Reaction prefix in some models
+    - "RXN_"    # Alternative reaction prefix
+    - "EC_"     # EC number prefix
+
+# EC number mappings (for reactions with EC numbers)
+ec_mappings:
+  "1.11.1.6": ["CAT", "CATm"]  # Catalase
+  "1.1.3.15": ["GLYCTO1"]       # Glycolate oxidase
+  "1.4.3.16": ["ASPO6"]         # L-aspartate oxidase
+  "1.3.98.1": ["DHORDi"]        # Dihydroorotate dehydrogenase
+  "1.7.7.2":  ["NAR_syn"]       # Ferredoxin-nitrate reductase

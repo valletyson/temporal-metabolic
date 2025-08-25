@@ -1,0 +1,176 @@
+# Biochemical Evolution Database - Oxygen Pathways
+# Temporal constraints for oxygen-producing reactions and pathways
+# Ages in billions of years ago (Ga)
+
+metadata:
+  version: "0.1.0"
+  last_updated: "2025-01-08"
+  description: "Curated temporal annotations for oxygen-producing pathways"
+  curator: "Network Artifacts Project"
+
+# Category-level temporal anchors (used as defaults)
+categories:
+  photosystem_ii:
+    estimated_age_ga: 2.4
+    age_min_ga: 2.7  # Earlier proposals exist
+    age_max_ga: 2.4  # Conservative anchor to GOE
+    confidence: high
+    archean_appropriate: false  # Post-Archean (< 2.5 Ga)
+    evidence:
+      citations:
+        - "DOI:10.1038/nature14959"  # Lyons et al., 2014
+        - "DOI:10.1126/science.1256717"  # Planavsky et al., 2014
+      notes: "Conservatively anchored to GOE timing (2.4 Ga) while noting earlier emergence proposals (2.7 Ga)"
+    
+  catalases:
+    estimated_age_ga: 2.8
+    age_min_ga: 3.0
+    age_max_ga: 2.5
+    confidence: medium
+    archean_appropriate: true  # Pre-GOE, ancient oxidative stress response
+    evidence:
+      citations:
+        - "DOI:10.1073/pnas.0803689105"  # Raymond & Segre, 2006
+      notes: "Ancient and widespread across domains; required for oxidative stress management before GOE"
+  
+  peroxidases:
+    # No numeric age assigned - ROS management, not net O2 production
+    estimated_age_ga: null
+    confidence: medium
+    archean_appropriate: false  # Not net O2 producers
+    evidence:
+      citations:
+        - "DOI:10.1016/j.freeradbiomed.2018.03.033"
+      notes: "ROS detoxification systems; do not imply net O2 production"
+  
+  alternative_oxidases:
+    estimated_age_ga: 1.5
+    age_min_ga: 2.0  # Oldest possible
+    age_max_ga: 1.0  # Youngest possible
+    confidence: low
+    archean_appropriate: false  # Post-Archean complex respiratory chains
+    evidence:
+      citations:
+        - "DOI:10.1093/molbev/mst012"
+      notes: "Complex electron transport chains; evolved after establishment of aerobic metabolism"
+  
+  other_o2_producers:
+    estimated_age_ga: 1.0
+    age_min_ga: 1.5
+    age_max_ga: 0.5
+    confidence: very_low
+    archean_appropriate: false
+    evidence:
+      notes: "Conservative placeholder for unclassified O2-producing reactions; likely recent innovations"
+
+# Reaction-level overrides and specific annotations (by BiGG ID or common names)
+reactions:
+  # Photosystem II reactions
+  PSII-RXN:
+    category: photosystem_ii
+    common_names: ["Photosystem II", "PS2", "Water-plastoquinone oxidoreductase"]
+  
+  # Catalase reactions
+  CAT:
+    category: catalases
+    common_names: ["Catalase", "H2O2:H2O2 oxidoreductase"]
+    estimated_age_ga: 2.8
+    archean_appropriate: true
+  
+  CATm:
+    category: catalases
+    common_names: ["Mitochondrial catalase"]
+    estimated_age_ga: 2.8
+    archean_appropriate: true
+  
+  # Alternative oxidases
+  ASPO6:
+    category: alternative_oxidases
+    common_names: ["L-aspartate oxidase"]
+    estimated_age_ga: 1.5
+    archean_appropriate: false
+  
+  GLYCTO1:
+    category: alternative_oxidases
+    common_names: ["Glycolate oxidase"]
+    estimated_age_ga: 1.5
+    archean_appropriate: false
+  
+  PDX5POi:
+    category: alternative_oxidases
+    common_names: ["Pyridoxamine 5'-phosphate oxidase"]
+    estimated_age_ga: 1.5
+    archean_appropriate: false
+  
+  PYAM5PO:
+    category: alternative_oxidases
+    common_names: ["Pyridoxamine oxidase"]
+    estimated_age_ga: 1.5
+    archean_appropriate: false
+  
+  PYDXNO:
+    category: alternative_oxidases
+    common_names: ["Pyridoxine oxidase"]
+    estimated_age_ga: 1.5
+    archean_appropriate: false
+  
+  PYDXO:
+    category: alternative_oxidases
+    common_names: ["Pyridoxal oxidase"]
+    estimated_age_ga: 1.5
+    archean_appropriate: false
+  
+  # Other O2 producers
+  DHORDi:
+    category: other_o2_producers
+    common_names: ["Dihydroorotate dehydrogenase"]
+    estimated_age_ga: 1.0
+    archean_appropriate: false
+  
+  NAR_syn:
+    category: other_o2_producers
+    common_names: ["Ferredoxin-nitrate reductase"]
+    estimated_age_ga: 1.0
+    archean_appropriate: false
+  
+  GLXO3r:
+    category: other_o2_producers
+    common_names: ["Glyoxylate dehydrogenase"]
+    estimated_age_ga: 1.0
+    archean_appropriate: false
+  
+  # O2 transport (not producers but often included)
+  O2tpp:
+    category: other_o2_producers
+    common_names: ["O2 transport periplasm"]
+    estimated_age_ga: 1.0
+    archean_appropriate: false
+  
+  O2tu:
+    category: other_o2_producers
+    common_names: ["O2 transport"]
+    estimated_age_ga: 1.0
+    archean_appropriate: false
+  
+  O2tex:
+    category: other_o2_producers
+    common_names: ["O2 transport extracellular"]
+    estimated_age_ga: 1.0
+    archean_appropriate: false
+
+# Era definitions for reference
+eras:
+  archean:
+    start_ga: 4.0
+    end_ga: 2.5
+    characteristics: "Anoxic atmosphere, high Fe2+, no ozone layer"
+  
+  proterozoic:
+    start_ga: 2.5
+    end_ga: 0.541
+    characteristics: "GOE, rising O2, BIFs, first eukaryotes"
+  
+  phanerozoic:
+    start_ga: 0.541
+    end_ga: 0.0
+    characteristics: "Modern O2 levels, complex life, ozone layer"

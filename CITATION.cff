@@ -1,0 +1,49 @@
+cff-version: 1.2.0
+title: "Temporal-Metabolic: Evolutionary Time Validation for Metabolic Models"
+message: "If you use this software, please cite it as below."
+type: software
+authors:
+  - given-names: Omar
+    family-names: "[Your Last Name]"
+    email: "your.email@example.com"
+    affiliation: "[Your High School/Institution]"
+    orcid: "https://orcid.org/0000-0000-0000-0000"
+repository-code: "https://github.com/yourusername/temporal-metabolic"
+url: "https://temporal-metabolic.readthedocs.io"
+doi: 10.5281/zenodo.XXXXXXX
+version: 0.1.0
+date-released: 2025-01-08
+keywords:
+  - metabolic-modeling
+  - systems-biology
+  - temporal-validation
+  - great-oxygenation-event
+  - archean
+  - evolution
+  - cobra
+  - flux-balance-analysis
+license: MIT
+preferred-citation:
+  type: article
+  authors:
+    - given-names: Omar
+      family-names: "[Your Last Name]"
+      email: "your.email@example.com"
+      affiliation: "[Your High School/Institution]"
+    - given-names: "[Professor First Name]"
+      family-names: "[Professor Last Name]"
+      affiliation: "California Institute of Technology"
+  title: "Network Complexity Artifacts in Metabolic Models: Implications for Evolutionary Systems Biology"
+  journal: "[Target Journal Name]"
+  year: 2025
+  doi: 10.XXXX/paper-doi
+  url: "https://doi.org/10.XXXX/paper-doi"
+abstract: |
+  Temporal-Metabolic is a Python framework for removing anachronistic reactions 
+  from metabolic models to create historically-accurate simulations. Our analysis 
+  reveals that 96.2% of oxygen-producing pathways in modern genome-scale metabolic 
+  models are temporally inappropriate for Archean Earth studies (>2.5 Ga). This 
+  tool provides automated annotation, filtering, and validation capabilities to 
+  address these network complexity artifacts, enabling accurate modeling of early 
+  life evolution, the Great Oxygenation Event, and other historical metabolic 
+  processes.

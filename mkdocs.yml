@@ -1,0 +1,91 @@
+site_name: Temporal-Metabolic
+site_description: Evolutionary time validation framework for metabolic models
+site_author: Omar [Your Name]
+site_url: https://temporal-metabolic.readthedocs.io
+repo_url: https://github.com/yourusername/temporal-metabolic
+repo_name: temporal-metabolic
+copyright: Copyright &copy; 2025 Omar [Your Name]
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: teal
+      accent: amber
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: teal
+      accent: amber
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+  icon:
+    repo: fontawesome/brands/github
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: installation.md
+    - Quickstart: quickstart.md
+    - Examples: examples.md
+  - User Guide:
+    - Concepts: concepts.md
+    - CLI Reference: cli.md
+    - Python API: api.md
+  - Database:
+    - Schema: database.md
+    - Adding Data: contributing_data.md
+    - EC Mapping: ec_mapping.md
+  - About:
+    - Background: background.md
+    - Citation: citation.md
+    - Contributing: contributing.md
+    - License: license.md
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_source: true
+            show_root_heading: true
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - tables
+  - attr_list
+  - md_in_html
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/yourusername
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/yourusername
+    - icon: fontawesome/solid/paper-plane
+      link: mailto:your.email@example.com
+  analytics:
+    provider: google
+    property: G-XXXXXXXXXX

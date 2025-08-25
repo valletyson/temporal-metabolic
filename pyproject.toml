@@ -1,0 +1,114 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "temporal-metabolic"
+version = "0.1.0"
+description = "Temporal validation framework for metabolic models - Remove anachronistic reactions for historically-accurate simulations"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Tyson Valle", email = "valletyson76@gmail.com"},
+]
+maintainers = [
+    {name = "Tyson Valle", email = "valletysoon76@gmail.com"},
+]
+keywords = [
+    "metabolic-modeling",
+    "systems-biology",
+    "temporal-validation",
+    "evolution",
+    "cobra",
+    "flux-balance-analysis",
+    "archean",
+    "great-oxygenation-event"
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "cobra>=0.26.0",
+    "pydantic>=2.0.0",
+    "pyyaml>=6.0",
+    "pandas>=1.3.0",
+    "numpy>=1.20.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=22.0.0",
+    "isort>=5.10.0",
+    "mypy>=0.990",
+]
+docs = [
+    "mkdocs>=1.4.0",
+    "mkdocs-material>=8.5.0",
+    "mkdocstrings[python]>=0.19.0",
+]
+viz = [
+    "matplotlib>=3.5.0",
+    "seaborn>=0.12.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/temporal-metabolic"
+Documentation = "https://temporal-metabolic.readthedocs.io"
+Repository = "https://github.com/yourusername/temporal-metabolic"
+"Bug Tracker" = "https://github.com/yourusername/temporal-metabolic/issues"
+"Paper" = "https://doi.org/10.XXXX/your-paper-doi"
+
+[project.scripts]
+temporal-annotate = "temporal.annotate:main"
+temporal-filter = "temporal.filter:main"
+temporal-demo = "temporal.demo:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["temporal", "temporal.*"]
+
+[tool.setuptools.package-data]
+temporal = [
+    "sources/*.yaml",
+    "sources/mappings/*.yaml",
+    "VERSION",
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py38', 'py39', 'py310', 'py311']
+include = '\.pyi?$'
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+include_trailing_comma = true
+force_grid_wrap = 0
+use_parentheses = true
+ensure_newline_before_comments = true
+line_length = 88
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"
+python_classes = "Test*"
+python_functions = "test_*"
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+ignore_missing_imports = true
