@@ -3,10 +3,10 @@ title: "Temporal-Metabolic: Evolutionary Time Validation for Metabolic Models"
 message: "If you use this software, please cite it as below."
 type: software
 authors:
-  - given-names: Omar
-    family-names: "[Your Last Name]"
-    email: "your.email@example.com"
-    affiliation: "[Your High School/Institution]"
+  - given-names: "Tyson"
+    family-names: "Valle"
+    email: "valletyson76@gmail.com"
+    affiliation: "Encinal Junior and Senior Highschool"
     orcid: "https://orcid.org/0000-0000-0000-0000"
 repository-code: "https://github.com/yourusername/temporal-metabolic"
 url: "https://temporal-metabolic.readthedocs.io"
@@ -26,10 +26,10 @@ license: MIT
 preferred-citation:
   type: article
   authors:
-    - given-names: Omar
-      family-names: "[Your Last Name]"
-      email: "your.email@example.com"
-      affiliation: "[Your High School/Institution]"
+    - given-names: Tyson
+      family-names: "Valle"
+      email: "valletyson76@gmail.com"
+      affiliation: "Encinal Junior and Senior Highschool"
     - given-names: "[Professor First Name]"
       family-names: "[Professor Last Name]"
       affiliation: "California Institute of Technology"

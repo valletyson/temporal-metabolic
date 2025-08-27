@@ -121,7 +121,7 @@ This tool addresses "network complexity artifacts" - the accumulation of anachro
 - Standard validation misses these temporal artifacts
 - Historical modeling studies may have significant errors
 
-Read the paper: *[Network Complexity Artifacts in Metabolic Models](https://doi.org/10.XXXX/paper)*
+Read the paper: *[Network Complexity Artifacts in Metabolic Models: Implications for Evolutionary Systems Bilogy](https://drive.google.com/file/d/1KbXtDgAPlys0Xz3Y7jq0iUeRJ9zR2xdI/view?usp=sharing)*
 
 ## 🛠️ Advanced Usage
 
@@ -169,7 +169,7 @@ If you use `temporal-metabolic` in your research, please cite:
 
 ```bibtex
 @software{temporal_metabolic_2025,
-  author = {[Tyson Valle]},
+  author = {Tyson Valle},
   title = {Temporal-Metabolic: Evolutionary Time Validation for Metabolic Models},
   year = {2025},
   publisher = {GitHub},

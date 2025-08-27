@@ -118,7 +118,7 @@ OVERALL           | 104         | 96.2%    | Only catalase!
 pip install temporal-metabolic
 
 # Or from your GitHub (once uploaded)
-pip install git+https://github.com/yourusername/temporal-metabolic
+pip install git+https://github.com/valletyson/temporal-metabolic
 ```
 
 ## Prepared Responses

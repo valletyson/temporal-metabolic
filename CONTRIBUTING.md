@@ -58,7 +58,7 @@ aliases:
 
 ### 4. 🐛 Report Issues
 
-Found a bug or incorrect age assignment? [Open an issue](https://github.com/yourusername/temporal-metabolic/issues) with:
+Found a bug or incorrect age assignment? [Open an issue](https://github.com/valletyson/temporal-metabolic/issues) with:
 
 - Model name and source
 - Reaction ID
@@ -76,7 +76,7 @@ Found a bug or incorrect age assignment? [Open an issue](https://github.com/your
 
 1. Fork and clone the repository:
 ```bash
-git clone https://github.com/yourusername/temporal-metabolic.git
+git clone https://github.com/valletyson/temporal-metabolic.git
 cd temporal-metabolic
 ```
 
@@ -185,9 +185,9 @@ PRs will be reviewed for:
 
 ## Community
 
-- **Discussions**: [GitHub Discussions](https://github.com/yourusername/temporal-metabolic/discussions)
+- **Discussions**: [GitHub Discussions](https://github.com/valletyson/temporal-metabolic/discussions)
 - **Chat**: [Discord/Slack link]
-- **Email**: your.email@example.com
+- **Email**: valletyson76@gmail.com
 
 ## Recognition
 
@@ -198,6 +198,6 @@ Contributors will be:
 
 ## Questions?
 
-Not sure how to contribute? Open a [discussion](https://github.com/yourusername/temporal-metabolic/discussions) or email the maintainers.
+Not sure how to contribute? Open a [discussion](https://github.com/valletyson/temporal-metabolic/discussions) or email the maintainers.
 
 Thank you for helping make metabolic modeling more historically accurate! 🕰️
