@@ -97,6 +97,7 @@ docs/_build/
 
 # Model files (except examples)
 models/
+test_models/
 !examples/*.xml
 
 # Data files
@@ -104,3 +105,8 @@ data/
 *.h5
 *.csv
 *.xlsx
+
+# Local-only files
+PRESENTATION_DEMO.md
+.specstory/history/*.md
+test_worker.py

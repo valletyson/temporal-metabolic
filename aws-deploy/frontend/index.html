@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temporal-Metabolic: Evolutionary Time Validation for Metabolic Models</title>
+    <meta name="description" content="Remove anachronistic reactions from metabolic models for historically-accurate simulations. Validate metabolic models against evolutionary timelines.">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        nav h1 {
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        nav .links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: #666;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        nav a:hover {
+            color: #667eea;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+        
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .hero h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        
+        .hero .tagline {
+            font-size: 1.25rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+        
+        .problem-stat {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            border-radius: 8px;
+            margin: 2rem 0;
+            font-size: 1.1rem;
+            color: #856404;
+        }
+        
+        .problem-stat strong {
+            font-size: 1.5rem;
+            color: #d39e00;
+        }
+        
+        /* Info Sections */
+        .info-section {
+            padding: 3rem 2rem;
+            background: #f8f9fa;
+        }
+        
+        .info-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+        
+        .info-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        
+        .info-card h3 {
+            color: #667eea;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .info-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+        
+        .info-card ul {
+            list-style: none;
+            margin-top: 1rem;
+        }
+        
+        .info-card li {
+            color: #666;
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .info-card li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4caf50;
+            font-weight: bold;
+        }
+        
+        /* Main App Container */
+        .app-container {
+            background: white;
+            padding: 4rem 2rem;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid #e0e0e0;
+        }
+        
+        /* Example Models Section */
+        .example-models {
+            background: #f8f9ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0 30px 0;
+            border: 1px solid #e3e6ff;
+        }
+        
+        .example-models h3 {
+            color: #667eea;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .example-buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        
+        .example-btn {
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .example-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+        
+        .example-btn strong {
+            font-size: 1rem;
+        }
+        
+        .example-btn span {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+        
+        .container h2 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+            text-align: center;
+        }
+        
+        .container .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1rem;
+            text-align: center;
+        }
+        
+        /* Upload Area */
+        .upload-area {
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 30px;
+            background: #fafafa;
+        }
+        
+        .upload-area:hover {
+            border-color: #667eea;
+            background: #f8f9ff;
+        }
+        
+        .upload-area.dragover {
+            border-color: #667eea;
+            background: #f0f2ff;
+        }
+        
+        input[type="file"] {
+            display: none;
+        }
+        
+        /* Options Grid */
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .option-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .option-group label {
+            color: #555;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        
+        .option-group select {
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            background: white;
+            transition: border-color 0.3s ease;
+        }
+        
+        .option-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        /* Button */
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* Status Messages */
+        .status {
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .status.processing {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        
+        /* Results */
+        .results {
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .results h3 {
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        
+        .result-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .result-stat:last-child {
+            border-bottom: none;
+        }
+        
+        /* Category Counts */
+        .category-section {
+            margin-top: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .category-section h4 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+        }
+        
+        .category-item {
+            background: #f8f9ff;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 3px solid #667eea;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        
+        .category-item.highlight {
+            border-left-color: #f39c12;
+            background: #fff9e6;
+        }
+        
+        .category-name {
+            font-size: 0.85rem;
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .category-count {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        .category-note {
+            font-size: 0.75rem;
+            color: #999;
+            font-style: italic;
+        }
+        
+        .download-links {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .download-links a {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .download-links a:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+        }
+        
+        /* Spinner */
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            margin: 20px 0;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            height: 30px;
+            position: relative;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 500;
+            font-size: 0.9rem;
+            min-width: 50px;
+        }
+        
+        .progress-steps {
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+        }
+        
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            opacity: 0.5;
+            transition: opacity 0.3s ease;
+        }
+        
+        .progress-step.active {
+            opacity: 1;
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        .progress-step.completed {
+            opacity: 1;
+            color: #4caf50;
+        }
+        
+        .progress-step-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #e9ecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .progress-step.active .progress-step-icon {
+            background: #667eea;
+            color: white;
+        }
+        
+        .progress-step.completed .progress-step-icon {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .progress-message {
+            margin-top: 10px;
+            font-size: 0.95rem;
+            color: #666;
+            text-align: center;
+        }
+        
+        /* Footer */
+        footer {
+            background: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        footer p {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        
+        footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav .links {
+                display: none;
+            }
+            
+            .hero h2 {
+                font-size: 2rem;
+            }
+            
+            .options {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-content">
+            <h1>Temporal-Metabolic</h1>
+            <div class="links">
+                <a href="#about">About</a>
+                <a href="#app">Analyze</a>
+                <a href="https://github.com/valletyson/temporal-metabolic" target="_blank">GitHub</a>
+                <a href="https://drive.google.com/file/d/1KbXtDgAPlys0Xz3Y7jq0iUeRJ9zR2xdI/view?usp=sharing" target="_blank">Paper</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-content">
+            <h2>Evolutionary Time Validation for Metabolic Models</h2>
+            <p class="tagline">Remove anachronistic reactions from metabolic models for historically-accurate simulations</p>
+            
+            <div class="problem-stat">
+                <strong>96.2%</strong> of oxygen-producing pathways in modern metabolic models<br>
+                are temporally inappropriate for early Earth studies
+            </div>
+        </div>
+    </div>
+    
+    <!-- Information Section -->
+    <div class="info-section" id="about">
+        <div class="info-content">
+            <div class="info-card">
+                <h3>🚨 The Problem</h3>
+                <p>Modern metabolic models contain reactions that evolved long after the time period being studied. This creates fundamental errors when modeling:</p>
+                <ul>
+                    <li>The Great Oxygenation Event (2.4 Ga)</li>
+                    <li>Early life evolution (>2.5 Ga)</li>
+                    <li>Biosignature interpretation for exoplanets</li>
+                    <li>Historical metabolic reconstructions</li>
+                </ul>
+            </div>
+            
+            <div class="info-card">
+                <h3>💡 How It Works</h3>
+                <p>Our framework validates metabolic models against evolutionary timelines by:</p>
+                <ul>
+                    <li>Annotating reactions with evolutionary ages</li>
+                    <li>Filtering models for geological eras</li>
+                    <li>Using confidence-gated validation</li>
+                    <li>Removing anachronistic pathways</li>
+                </ul>
+            </div>
+            
+            <div class="info-card">
+                <h3>📊 Validation Results</h3>
+                <p>Applied to 4 phylogenetically diverse organisms, we found that modern models contain ~26× more oxygen pathways than existed in the Archean era.</p>
+                <ul>
+                    <li>E. coli: 97.4% reactions spurious</li>
+                    <li>S. cerevisiae: 97.1% spurious</li>
+                    <li>Synechocystis: 92.9% spurious</li>
+                    <li>Only catalase predates 2.5 Ga</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main Application -->
+    <div class="app-container" id="app">
+        <div class="container">
+            <h2>Analyze Your Model</h2>
+            <p class="subtitle">Upload a metabolic model to validate against evolutionary timelines</p>
+            
+            <!-- Example Models Section -->
+            <div class="example-models">
+                <h3>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                    </svg>
+                    Quick Start: Try an Example Model
+                </h3>
+                <div class="example-buttons">
+                    <button class="example-btn" onclick="loadExampleModel('iML1515', 'E. coli iML1515')">
+                        <strong>E. coli iML1515</strong>
+                        <span>1877 genes • 2712 reactions</span>
+                    </button>
+                    <button class="example-btn" onclick="loadExampleModel('iJN678', 'Synechocystis iJN678')">
+                        <strong>Synechocystis iJN678</strong>
+                        <span>678 genes • 863 reactions</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="upload-area" id="uploadArea">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                <p style="margin-top: 20px; color: #666;">Drop your SBML/JSON model here or click to browse</p>
+                <p style="margin-top: 10px; color: #999; font-size: 0.9rem;">Supported formats: .sbml, .xml, .json, .gz, .zip, .bz2 (max 50 MB)</p>
+                <input type="file" id="fileInput" accept=".sbml,.xml,.json,.gz,.zip,.bz2">
+            </div>
+            
+            <div class="options">
+                <div class="option-group">
+                    <label for="era">Geological Era</label>
+                    <select id="era">
+                        <option value="archean">Archean (>2.5 Ga)</option>
+                        <option value="proterozoic">Proterozoic (2.5-0.54 Ga)</option>
+                        <option value="phanerozoic">Phanerozoic (<0.54 Ga)</option>
+                    </select>
+                </div>
+                <div class="option-group">
+                    <label for="confidence">Minimum Confidence Level</label>
+                    <select id="confidence">
+                        <option value="low">Low (Most Inclusive)</option>
+                        <option value="medium" selected>Medium (Balanced)</option>
+                        <option value="high">High (Conservative)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <button id="analyzeBtn" disabled>Analyze Model</button>
+            
+            <div class="status" id="status"></div>
+            <div class="results" id="results"></div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <p><strong>Temporal-Metabolic</strong> | Ensuring metabolic models respect the arrow of time</p>
+        <p>Author: Tyson Valle | <a href="mailto:valletyson76@gmai.com">Contact</a> | <a href="https://github.com/valletyson/temporal-metabolic" target="_blank">GitHub</a></p>
+        <p style="margin-top: 1rem; font-size: 0.9rem; color: #999;">Files are automatically deleted after 3 days</p>
+    </footer>
+
+    <script>
+        const API_URL = 'https://w8vjyyukj9.execute-api.us-east-1.amazonaws.com/prod/job';
+        const EXAMPLE_MODELS = {
+            'iML1515': {
+                url: '/examples/iML1515.xml',  // Use relative URL
+                name: 'iML1515.xml',
+                size: 11435520  // approximate size
+            },
+            'iJN678': {
+                url: '/examples/iJN678.xml.gz',  // Use relative URL
+                name: 'iJN678.xml.gz',
+                size: 224051  // approximate size
+            }
+        };
+        
+        let selectedFile = null;
+        let currentJobId = null;
+        
+        // File upload handling
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const statusDiv = document.getElementById('status');
+        const resultsDiv = document.getElementById('results');
+        
+        uploadArea.addEventListener('click', () => fileInput.click());
+        
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFileSelect(files[0]);
+            }
+        });
+        
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFileSelect(e.target.files[0]);
+            }
+        });
+        
+        async function loadExampleModel(modelId, displayName) {
+            const model = EXAMPLE_MODELS[modelId];
+            if (!model) return;
+            
+            // Update UI to show loading
+            uploadArea.innerHTML = `
+                <div class="spinner"></div>
+                <p style="margin-top: 20px; color: #667eea;">Loading example model...</p>
+            `;
+            
+            try {
+                // Fetch the example model file
+                const response = await fetch(model.url);
+                if (!response.ok) throw new Error('Failed to load example model');
+                
+                const blob = await response.blob();
+                const file = new File([blob], model.name, { type: 'application/octet-stream' });
+                
+                // Use the existing file select handler
+                handleFileSelect(file);
+                
+            } catch (error) {
+                alert('Failed to load example model. Please try again.');
+                // Reset upload area
+                uploadArea.innerHTML = `
+                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#667eea" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <p style="margin-top: 20px; color: #666;">Drop your SBML/JSON model here or click to browse</p>
+                    <p style="margin-top: 10px; color: #999; font-size: 0.9rem;">Supported formats: .sbml, .xml, .json, .gz, .zip, .bz2 (max 50 MB)</p>
+                `;
+            }
+        }
+        
+        function handleFileSelect(file) {
+            const validExtensions = ['.sbml', '.xml', '.json', '.gz', '.zip', '.bz2'];
+            const filename = file.name.toLowerCase();
+            const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50 MB
+            
+            // Check file size
+            if (file.size > MAX_FILE_SIZE) {
+                alert(`File too large! Maximum size is ${MAX_FILE_SIZE / 1024 / 1024} MB. Your file is ${(file.size / 1024 / 1024).toFixed(1)} MB.`);
+                return;
+            }
+            
+            // Check for compressed files with double extensions like .xml.gz
+            let isValid = false;
+            for (const ext of validExtensions) {
+                if (filename.endsWith(ext)) {
+                    isValid = true;
+                    break;
+                }
+            }
+            
+            if (!isValid) {
+                alert('Please select a valid model file (.sbml, .xml, .json, .gz, .zip, or .bz2)');
+                return;
+            }
+            
+            selectedFile = file;
+            uploadArea.innerHTML = `
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#4CAF50" stroke-width="2">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+                <p style="margin-top: 20px; color: #4CAF50; font-weight: bold;">${file.name}</p>
+                <p style="margin-top: 10px; color: #999; font-size: 0.9rem;">Size: ${(file.size / 1024).toFixed(2)} KB</p>
+            `;
+            analyzeBtn.disabled = false;
+        }
+        
+        function updateProgress(step, percentage, message) {
+            const steps = ['upload', 'parse', 'analyze', 'filter', 'complete'];
+            const stepNames = ['Upload', 'Parse', 'Analyze', 'Filter', 'Complete'];
+            const currentStepIndex = steps.indexOf(step);
+            
+            statusDiv.className = 'status processing';
+            statusDiv.style.display = 'block';
+            statusDiv.innerHTML = `
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: ${percentage}%">
+                        ${percentage}%
+                    </div>
+                </div>
+                <div class="progress-steps">
+                    ${stepNames.map((name, index) => {
+                        let className = 'progress-step';
+                        let icon = index + 1;
+                        
+                        if (index < currentStepIndex) {
+                            className += ' completed';
+                            icon = '✓';
+                        } else if (index === currentStepIndex) {
+                            className += ' active';
+                        }
+                        
+                        return `
+                            <div class="${className}">
+                                <div class="progress-step-icon">${icon}</div>
+                                <span>${name}</span>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+                <div class="progress-message">${message}</div>
+            `;
+        }
+        
+        analyzeBtn.addEventListener('click', async () => {
+            if (!selectedFile) return;
+            
+            analyzeBtn.disabled = true;
+            resultsDiv.style.display = 'none';
+            
+            // Start with upload step
+            updateProgress('upload', 10, 'Creating job and preparing upload...');
+            
+            try {
+                // Step 1: Create job
+                const createResponse = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        action: 'create_job',
+                        filename: selectedFile.name,
+                        file_size: selectedFile.size
+                    })
+                });
+                
+                const jobData = await createResponse.json();
+                
+                if (!createResponse.ok) {
+                    throw new Error(jobData.error || 'Failed to create job');
+                }
+                
+                currentJobId = jobData.job_id;
+                
+                // Update progress to uploading
+                updateProgress('upload', 25, 'Uploading model file...');
+                
+                // Step 2: Upload file
+                await fetch(jobData.upload_url, {
+                    method: 'PUT',
+                    body: selectedFile,
+                    headers: {
+                        'Content-Type': 'application/octet-stream'
+                    }
+                });
+                
+                // Update progress to parsing
+                updateProgress('parse', 40, 'Parsing metabolic model...');
+                
+                // Step 3: Start job
+                const options = {
+                    era: document.getElementById('era').value,
+                    min_confidence: document.getElementById('confidence').value
+                };
+                
+                await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'start_job',
+                        job_id: currentJobId,
+                        model_key: jobData.model_key,
+                        options: options
+                    })
+                });
+                
+                // Update progress to analyzing
+                updateProgress('analyze', 50, 'Analyzing reactions against evolutionary timeline...');
+                
+                // Step 4: Poll for results with progress updates
+                pollForResults();
+                
+            } catch (error) {
+                statusDiv.className = 'status error';
+                statusDiv.innerHTML = 'Error: ' + error.message;
+                analyzeBtn.disabled = false;
+            }
+        });
+        
+        async function pollForResults() {
+            let pollCount = 0;
+            const pollInterval = setInterval(async () => {
+                pollCount++;
+                
+                try {
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            action: 'get_status',
+                            job_id: currentJobId
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.status === 'completed') {
+                        clearInterval(pollInterval);
+                        updateProgress('complete', 100, 'Analysis complete!');
+                        setTimeout(() => {
+                            showResults(data);
+                            analyzeBtn.disabled = false;
+                        }, 1000);
+                    } else if (data.status === 'failed') {
+                        clearInterval(pollInterval);
+                        statusDiv.className = 'status error';
+                        statusDiv.innerHTML = 'Analysis failed: ' + (data.error || 'Unknown error');
+                        analyzeBtn.disabled = false;
+                    } else {
+                        // Update progress based on time elapsed
+                        const baseProgress = 50;
+                        const additionalProgress = Math.min(pollCount * 5, 40); // Max 90% total
+                        const currentProgress = baseProgress + additionalProgress;
+                        
+                        // Vary the message
+                        const messages = [
+                            'Analyzing reactions against evolutionary timeline...',
+                            'Checking oxygen-producing pathways...',
+                            'Filtering anachronistic reactions...',
+                            'Validating temporal constraints...',
+                            'Finalizing analysis results...'
+                        ];
+                        const messageIndex = Math.min(Math.floor(pollCount / 2), messages.length - 1);
+                        
+                        if (currentProgress < 75) {
+                            updateProgress('analyze', currentProgress, messages[messageIndex]);
+                        } else {
+                            updateProgress('filter', currentProgress, 'Filtering anachronistic reactions...');
+                        }
+                    }
+                    
+                } catch (error) {
+                    clearInterval(pollInterval);
+                    statusDiv.className = 'status error';
+                    statusDiv.innerHTML = 'Error checking status: ' + error.message;
+                    analyzeBtn.disabled = false;
+                }
+            }, 5000); // Poll every 5 seconds
+        }
+        
+        async function downloadFile(url, filename) {
+            try {
+                // Fetch the file content
+                const response = await fetch(url);
+                const blob = await response.blob();
+                
+                // Create a temporary URL for the blob
+                const blobUrl = window.URL.createObjectURL(blob);
+                
+                // Create a hidden download link and trigger it
+                const a = document.createElement('a');
+                a.href = blobUrl;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                
+                // Clean up
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(blobUrl);
+            } catch (error) {
+                alert('Error downloading file: ' + error.message);
+            }
+        }
+        
+        function formatCategoryName(category) {
+            const names = {
+                'photosystem_ii': 'Photosystem II',
+                'catalase': 'Catalases',
+                'peroxidase': 'Peroxidases',
+                'alternative_oxidase': 'Alternative Oxidases',
+                'cytochrome_oxidase': 'Cytochrome Oxidases',
+                'other_oxygen': 'Other O₂ Reactions'
+            };
+            return names[category] || category;
+        }
+        
+        function getCategoryNote(category) {
+            const notes = {
+                'photosystem_ii': 'Primary O₂ producer',
+                'catalase': 'May predate GOE',
+                'peroxidase': 'Not net O₂ producer',
+                'alternative_oxidase': 'Post-Archean',
+                'cytochrome_oxidase': 'Respiratory chain',
+                'other_oxygen': 'Various pathways'
+            };
+            return notes[category] || '';
+        }
+        
+        function showResults(data) {
+            statusDiv.className = 'status success';
+            statusDiv.innerHTML = '✓ Analysis complete!';
+            
+            const stats = data.results.stats;
+            const categories = stats.category_counts || {};
+            
+            // Build category HTML
+            let categoryHTML = '';
+            if (Object.keys(categories).length > 0) {
+                const categoryItems = Object.entries(categories)
+                    .filter(([_, count]) => count > 0)
+                    .sort((a, b) => b[1] - a[1])
+                    .map(([category, count]) => {
+                        const isHighlight = category === 'catalase';
+                        return `
+                            <div class="category-item ${isHighlight ? 'highlight' : ''}">
+                                <div class="category-name">${formatCategoryName(category)}</div>
+                                <div class="category-count">${count}</div>
+                                <div class="category-note">${getCategoryNote(category)}</div>
+                            </div>
+                        `;
+                    }).join('');
+                
+                categoryHTML = `
+                    <div class="category-section">
+                        <h4>
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 13h18"></path>
+                                <path d="M3 17h18"></path>
+                                <path d="M3 9h18"></path>
+                                <path d="M3 5h18"></path>
+                            </svg>
+                            Reaction Categories Removed
+                        </h4>
+                        <div class="category-grid">
+                            ${categoryItems}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            resultsDiv.style.display = 'block';
+            resultsDiv.innerHTML = `
+                <h3>Analysis Results</h3>
+                <div class="result-stat">
+                    <span>Total Reactions:</span>
+                    <strong>${stats.total_reactions}</strong>
+                </div>
+                <div class="result-stat">
+                    <span>Removed Reactions:</span>
+                    <strong>${stats.removed_reactions}</strong>
+                </div>
+                <div class="result-stat">
+                    <span>Anachronistic Percentage:</span>
+                    <strong style="color: ${stats.percent_anachronistic > 50 ? '#dc3545' : '#28a745'};">
+                        ${stats.percent_anachronistic.toFixed(1)}%
+                    </strong>
+                </div>
+                <div class="result-stat">
+                    <span>Era:</span>
+                    <strong>${stats.era}</strong>
+                </div>
+                <div class="result-stat">
+                    <span>Confidence Level:</span>
+                    <strong>${stats.confidence_used}</strong>
+                </div>
+                
+                ${categoryHTML}
+                
+                <div class="download-links">
+                    <a href="#" onclick="downloadFile('${data.download_urls.analysis}', 'analysis_${currentJobId}.json'); return false;">📊 Download Analysis</a>
+                    <a href="#" onclick="downloadFile('${data.download_urls.filtered_model}', 'filtered_model_${currentJobId}.json'); return false;">🧬 Download Filtered Model</a>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
