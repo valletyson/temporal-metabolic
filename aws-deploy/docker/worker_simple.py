@@ -78,15 +78,24 @@ def upload_results(job_id, results):
 def categorize_reaction(rxn):
     """Categorize a reaction based on its EC number and type"""
     # Check for EC number in annotation
-    ec_number = None
+    ec_numbers = []
     if rxn.annotation:
         if 'ec-code' in rxn.annotation:
-            ec_number = rxn.annotation['ec-code']
+            ec_val = rxn.annotation['ec-code']
+            # Handle both list and string formats
+            if isinstance(ec_val, list):
+                ec_numbers = ec_val
+            else:
+                ec_numbers = [ec_val]
         elif 'EC' in rxn.annotation:
-            ec_number = rxn.annotation['EC']
+            ec_val = rxn.annotation['EC']
+            if isinstance(ec_val, list):
+                ec_numbers = ec_val
+            else:
+                ec_numbers = [ec_val]
     
     # Simple categorization based on reaction name and EC number
-    if ec_number:
+    for ec_number in ec_numbers:
         if ec_number.startswith('1.11.1.6'):
             return 'catalase'
         elif ec_number.startswith('1.11.1'):
