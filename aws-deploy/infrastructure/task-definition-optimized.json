@@ -1,0 +1,50 @@
+{
+  "family": "temporal-metabolic-worker",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "taskRoleArn": "arn:aws:iam::903267486661:role/temporal-metabolic-ecs-task-role",
+  "executionRoleArn": "arn:aws:iam::903267486661:role/temporal-metabolic-ecs-task-role",
+  "containerDefinitions": [
+    {
+      "name": "worker",
+      "image": "903267486661.dkr.ecr.us-east-1.amazonaws.com/temporal-metabolic:latest",
+      "essential": true,
+      "environment": [
+        {
+          "name": "QUEUE_URL",
+          "value": "https://queue.amazonaws.com/903267486661/temporal-metabolic-jobs"
+        },
+        {
+          "name": "INPUT_BUCKET",
+          "value": "temporal-metabolic-inputs-903267486661"
+        },
+        {
+          "name": "OUTPUT_BUCKET",
+          "value": "temporal-metabolic-outputs-903267486661"
+        },
+        {
+          "name": "AUTO_SHUTDOWN",
+          "value": "true"
+        },
+        {
+          "name": "MAX_IDLE_POLLS",
+          "value": "3"
+        },
+        {
+          "name": "EXIT_AFTER_JOB",
+          "value": "false"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/temporal-metabolic",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "worker"
+        }
+      }
+    }
+  ]
+}

@@ -25,8 +25,9 @@ COPY README.md .
 # Install the package
 RUN pip install -e .
 
-# Copy the worker script
+# Copy the worker scripts
 COPY aws-deploy/docker/worker_simple.py .
+COPY aws-deploy/docker/worker_auto_shutdown.py .
 
-# Run the worker
-CMD ["python", "worker_simple.py"]
+# Run the auto-shutdown worker by default
+CMD ["python", "worker_auto_shutdown.py"]
